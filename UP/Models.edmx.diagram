@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="063e10ba7d134d17a25815d7a678655e" Name="Diagram1">
+        <EntityTypeShape EntityType="SatisfactoryModel.Agent" Width="1.5" PointX="5.75" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SatisfactoryModel.Employee" Width="1.5" PointX="0.75" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SatisfactoryModel.HistoryImplementations" Width="1.5" PointX="8" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SatisfactoryModel.Material" Width="1.5" PointX="0.75" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SatisfactoryModel.NecessaryMaterials" Width="1.5" PointX="12.5" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="SatisfactoryModel.PointSale" Width="1.5" PointX="8" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SatisfactoryModel.PossibleSuppliers" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="SatisfactoryModel.Production" Width="1.5" PointX="10.25" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SatisfactoryModel.Products" Width="1.5" PointX="8" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SatisfactoryModel.ProductSales" Width="1.5" PointX="10.25" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SatisfactoryModel.Provider" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SatisfactoryModel.Supplies" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SatisfactoryModel.sysdiagrams" Width="1.5" PointX="2.75" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="SatisfactoryModel.Users" Width="1.5" PointX="4.75" PointY="8" IsExpanded="true" />
+        <AssociationConnector Association="SatisfactoryModel.FK_ИсторияРеализациий_Агент" ManuallyRouted="false" />
+        <AssociationConnector Association="SatisfactoryModel.FK_ТочкаПродаж_Агент" ManuallyRouted="false" />
+        <AssociationConnector Association="SatisfactoryModel.FK_Поставки_Сотрудник" ManuallyRouted="false" />
+        <AssociationConnector Association="SatisfactoryModel.FK_ПродажиПродукции_ИсторияРеализациий" ManuallyRouted="false" />
+        <AssociationConnector Association="SatisfactoryModel.FK_ВозможныеПоставщики_Материал" ManuallyRouted="false" />
+        <AssociationConnector Association="SatisfactoryModel.FK_НеобходимыеМатериалы_Материал" ManuallyRouted="false" />
+        <AssociationConnector Association="SatisfactoryModel.FK_НеобходимыеМатериалы_Производство" ManuallyRouted="false" />
+        <AssociationConnector Association="SatisfactoryModel.FK_ВозможныеПоставщики_Поставщик" ManuallyRouted="false" />
+        <AssociationConnector Association="SatisfactoryModel.FK_Производство_Продкуция1" ManuallyRouted="false" />
+        <AssociationConnector Association="SatisfactoryModel.FK_ПродажиПродукции_Продкуция" ManuallyRouted="false" />
+        <AssociationConnector Association="SatisfactoryModel.FK_Поставки_Поставщик" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

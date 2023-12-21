@@ -1,0 +1,373 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SatisfactoryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Agent">
+    <Key>
+      <PropertyRef Name="IDАгента" />
+    </Key>
+    <Property Name="IDАгента" Type="Int32" Nullable="false" />
+    <Property Name="НаименованиеКомпании" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ТипАгента" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+    <Property Name="ЮридическийАдрес" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ИНН" Type="Int32" />
+    <Property Name="КПП" Type="Int32" />
+    <Property Name="ФиоДиректора" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+    <Property Name="Телефон" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Логотип" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Приоритет" Type="Int32" />
+    <NavigationProperty Name="HistoryImplementations" Relationship="Self.FK_ИсторияРеализациий_Агент" FromRole="Agent" ToRole="HistoryImplementations" />
+    <NavigationProperty Name="PointSale" Relationship="Self.FK_ТочкаПродаж_Агент" FromRole="Agent" ToRole="PointSale" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="IDСотрудника" />
+    </Key>
+    <Property Name="IDСотрудника" Type="Int32" Nullable="false" />
+    <Property Name="ФИО" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ДатаРождения" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="ПаспортныеДанные" Type="Int32" Nullable="false" />
+    <Property Name="БанковскиеРеквизиты" Type="Int32" Nullable="false" />
+    <Property Name="СостояниеЗдоровья" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="НаличиеСемьи" Type="Boolean" Nullable="false" />
+    <Property Name="Специализация" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Supplies" Relationship="Self.FK_Поставки_Сотрудник" FromRole="Employee" ToRole="Supplies" />
+  </EntityType>
+  <EntityType Name="HistoryImplementations">
+    <Key>
+      <PropertyRef Name="IDРеализации" />
+    </Key>
+    <Property Name="IDРеализации" Type="Int32" Nullable="false" />
+    <Property Name="IDАгента" Type="Int32" Nullable="false" />
+    <Property Name="ДатаРеализации" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Стоимость" Type="Decimal" Precision="8" Scale="2" Nullable="false" />
+    <NavigationProperty Name="Agent" Relationship="Self.FK_ИсторияРеализациий_Агент" FromRole="HistoryImplementations" ToRole="Agent" />
+    <NavigationProperty Name="ProductSales" Relationship="Self.FK_ПродажиПродукции_ИсторияРеализациий" FromRole="HistoryImplementations" ToRole="ProductSales" />
+  </EntityType>
+  <EntityType Name="Material">
+    <Key>
+      <PropertyRef Name="IDМатериала" />
+    </Key>
+    <Property Name="IDМатериала" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Наименование" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+    <Property Name="ТипМатериала" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+    <Property Name="ИзображениеМатериала" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Цена" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="КолНаСкладе" Type="Int32" />
+    <Property Name="МинКолНаСкладе" Type="Int32" />
+    <Property Name="КолУпаковки" Type="Int32" />
+    <Property Name="ЕдиницаИзм" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="PossibleSuppliers" Relationship="Self.FK_ВозможныеПоставщики_Материал" FromRole="Material" ToRole="PossibleSuppliers" />
+    <NavigationProperty Name="NecessaryMaterials" Relationship="Self.FK_НеобходимыеМатериалы_Материал" FromRole="Material" ToRole="NecessaryMaterials" />
+  </EntityType>
+  <EntityType Name="NecessaryMaterials">
+    <Key>
+      <PropertyRef Name="IDПроизводства" />
+      <PropertyRef Name="IDМатериала" />
+    </Key>
+    <Property Name="IDПроизводства" Type="Int32" Nullable="false" />
+    <Property Name="IDМатериала" Type="Int32" Nullable="false" />
+    <Property Name="Количетсво" Type="Int32" />
+    <NavigationProperty Name="Material" Relationship="Self.FK_НеобходимыеМатериалы_Материал" FromRole="NecessaryMaterials" ToRole="Material" />
+    <NavigationProperty Name="Production" Relationship="Self.FK_НеобходимыеМатериалы_Производство" FromRole="NecessaryMaterials" ToRole="Production" />
+  </EntityType>
+  <EntityType Name="PointSale">
+    <Key>
+      <PropertyRef Name="IDТочки" />
+    </Key>
+    <Property Name="IDТочки" Type="Int32" Nullable="false" />
+    <Property Name="IDАгента" Type="Int32" Nullable="false" />
+    <Property Name="Наименование" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Адрес" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Agent" Relationship="Self.FK_ТочкаПродаж_Агент" FromRole="PointSale" ToRole="Agent" />
+  </EntityType>
+  <EntityType Name="PossibleSuppliers">
+    <Key>
+      <PropertyRef Name="IDМатериала" />
+      <PropertyRef Name="IDПоставщика" />
+    </Key>
+    <Property Name="IDМатериала" Type="Int32" Nullable="false" />
+    <Property Name="IDПоставщика" Type="Int32" Nullable="false" />
+    <Property Name="Описание" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Material" Relationship="Self.FK_ВозможныеПоставщики_Материал" FromRole="PossibleSuppliers" ToRole="Material" />
+    <NavigationProperty Name="Provider" Relationship="Self.FK_ВозможныеПоставщики_Поставщик" FromRole="PossibleSuppliers" ToRole="Provider" />
+  </EntityType>
+  <EntityType Name="Production">
+    <Key>
+      <PropertyRef Name="IDПроизводства" />
+    </Key>
+    <Property Name="IDПроизводства" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IDПродукции" Type="Int32" Nullable="false" />
+    <Property Name="Время" Type="Time" Precision="7" />
+    <Property Name="Себестоимость" Type="Double" />
+    <Property Name="НомерЦеха" Type="Int32" />
+    <Property Name="НеобходимоеКолЧел" Type="Int32" />
+    <NavigationProperty Name="NecessaryMaterials" Relationship="Self.FK_НеобходимыеМатериалы_Производство" FromRole="Production" ToRole="NecessaryMaterials" />
+    <NavigationProperty Name="Products" Relationship="Self.FK_Производство_Продкуция1" FromRole="Production" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="Products">
+    <Key>
+      <PropertyRef Name="IDПродукции" />
+    </Key>
+    <Property Name="IDПродукции" Type="Int32" Nullable="false" />
+    <Property Name="Артикул" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Наименование" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ТипПродукта" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Описание" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Изображение" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="МинСтоимость" Type="Decimal" Precision="8" Scale="2" Nullable="false" />
+    <Property Name="РазмерУпаковки" Type="Double" Nullable="false" />
+    <Property Name="ВесБезУпаковки" Type="Double" Nullable="false" />
+    <Property Name="ВесСУпаковкой" Type="Double" Nullable="false" />
+    <Property Name="СертификатКачества" Type="Int32" Nullable="false" />
+    <Property Name="НомерСтандарта" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Production" Relationship="Self.FK_Производство_Продкуция1" FromRole="Products" ToRole="Production" />
+    <NavigationProperty Name="ProductSales" Relationship="Self.FK_ПродажиПродукции_Продкуция" FromRole="Products" ToRole="ProductSales" />
+  </EntityType>
+  <EntityType Name="ProductSales">
+    <Key>
+      <PropertyRef Name="IDРеализации" />
+      <PropertyRef Name="IDПродукции" />
+    </Key>
+    <Property Name="IDРеализации" Type="Int32" Nullable="false" />
+    <Property Name="IDПродукции" Type="Int32" Nullable="false" />
+    <Property Name="Количество" Type="Int32" />
+    <NavigationProperty Name="HistoryImplementations" Relationship="Self.FK_ПродажиПродукции_ИсторияРеализациий" FromRole="ProductSales" ToRole="HistoryImplementations" />
+    <NavigationProperty Name="Products" Relationship="Self.FK_ПродажиПродукции_Продкуция" FromRole="ProductSales" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="Provider">
+    <Key>
+      <PropertyRef Name="IDПоставщика" />
+    </Key>
+    <Property Name="IDПоставщика" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Наименование" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ИНН" Type="Int64" Nullable="false" />
+    <Property Name="ТипПоставщика" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="РейтингКачества" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ДатаНачалоРаботы" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="PossibleSuppliers" Relationship="Self.FK_ВозможныеПоставщики_Поставщик" FromRole="Provider" ToRole="PossibleSuppliers" />
+    <NavigationProperty Name="Supplies" Relationship="Self.FK_Поставки_Поставщик" FromRole="Provider" ToRole="Supplies" />
+  </EntityType>
+  <EntityType Name="Supplies">
+    <Key>
+      <PropertyRef Name="IDПоставки" />
+    </Key>
+    <Property Name="IDПоставки" Type="Int32" Nullable="false" />
+    <Property Name="IDПоставщика" Type="Int32" Nullable="false" />
+    <Property Name="IDСотрудника" Type="Int32" Nullable="false" />
+    <Property Name="ДатаПоставки" Type="DateTime" Precision="3" />
+    <Property Name="КолМатериала" Type="Int32" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK_Поставки_Сотрудник" FromRole="Supplies" ToRole="Employee" />
+    <NavigationProperty Name="Provider" Relationship="Self.FK_Поставки_Поставщик" FromRole="Supplies" ToRole="Provider" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Login" />
+    </Key>
+    <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_ИсторияРеализациий_Агент">
+    <End Role="Agent" Type="Self.Agent" Multiplicity="1" />
+    <End Role="HistoryImplementations" Type="Self.HistoryImplementations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Agent">
+        <PropertyRef Name="IDАгента" />
+      </Principal>
+      <Dependent Role="HistoryImplementations">
+        <PropertyRef Name="IDАгента" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ТочкаПродаж_Агент">
+    <End Role="Agent" Type="Self.Agent" Multiplicity="1" />
+    <End Role="PointSale" Type="Self.PointSale" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Agent">
+        <PropertyRef Name="IDАгента" />
+      </Principal>
+      <Dependent Role="PointSale">
+        <PropertyRef Name="IDАгента" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Поставки_Сотрудник">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+    <End Role="Supplies" Type="Self.Supplies" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="IDСотрудника" />
+      </Principal>
+      <Dependent Role="Supplies">
+        <PropertyRef Name="IDСотрудника" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ПродажиПродукции_ИсторияРеализациий">
+    <End Role="HistoryImplementations" Type="Self.HistoryImplementations" Multiplicity="1" />
+    <End Role="ProductSales" Type="Self.ProductSales" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HistoryImplementations">
+        <PropertyRef Name="IDРеализации" />
+      </Principal>
+      <Dependent Role="ProductSales">
+        <PropertyRef Name="IDРеализации" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ВозможныеПоставщики_Материал">
+    <End Role="Material" Type="Self.Material" Multiplicity="1" />
+    <End Role="PossibleSuppliers" Type="Self.PossibleSuppliers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Material">
+        <PropertyRef Name="IDМатериала" />
+      </Principal>
+      <Dependent Role="PossibleSuppliers">
+        <PropertyRef Name="IDМатериала" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_НеобходимыеМатериалы_Материал">
+    <End Role="Material" Type="Self.Material" Multiplicity="1" />
+    <End Role="NecessaryMaterials" Type="Self.NecessaryMaterials" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Material">
+        <PropertyRef Name="IDМатериала" />
+      </Principal>
+      <Dependent Role="NecessaryMaterials">
+        <PropertyRef Name="IDМатериала" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_НеобходимыеМатериалы_Производство">
+    <End Role="Production" Type="Self.Production" Multiplicity="1" />
+    <End Role="NecessaryMaterials" Type="Self.NecessaryMaterials" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Production">
+        <PropertyRef Name="IDПроизводства" />
+      </Principal>
+      <Dependent Role="NecessaryMaterials">
+        <PropertyRef Name="IDПроизводства" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ВозможныеПоставщики_Поставщик">
+    <End Role="Provider" Type="Self.Provider" Multiplicity="1" />
+    <End Role="PossibleSuppliers" Type="Self.PossibleSuppliers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Provider">
+        <PropertyRef Name="IDПоставщика" />
+      </Principal>
+      <Dependent Role="PossibleSuppliers">
+        <PropertyRef Name="IDПоставщика" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Производство_Продкуция1">
+    <End Role="Products" Type="Self.Products" Multiplicity="1" />
+    <End Role="Production" Type="Self.Production" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="IDПродукции" />
+      </Principal>
+      <Dependent Role="Production">
+        <PropertyRef Name="IDПродукции" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ПродажиПродукции_Продкуция">
+    <End Role="Products" Type="Self.Products" Multiplicity="1" />
+    <End Role="ProductSales" Type="Self.ProductSales" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="IDПродукции" />
+      </Principal>
+      <Dependent Role="ProductSales">
+        <PropertyRef Name="IDПродукции" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Поставки_Поставщик">
+    <End Role="Provider" Type="Self.Provider" Multiplicity="1" />
+    <End Role="Supplies" Type="Self.Supplies" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Provider">
+        <PropertyRef Name="IDПоставщика" />
+      </Principal>
+      <Dependent Role="Supplies">
+        <PropertyRef Name="IDПоставщика" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SatisfactoryEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Agent" EntityType="Self.Agent" />
+    <EntitySet Name="Employee" EntityType="Self.Employee" />
+    <EntitySet Name="HistoryImplementations" EntityType="Self.HistoryImplementations" />
+    <EntitySet Name="Material" EntityType="Self.Material" />
+    <EntitySet Name="NecessaryMaterials" EntityType="Self.NecessaryMaterials" />
+    <EntitySet Name="PointSale" EntityType="Self.PointSale" />
+    <EntitySet Name="PossibleSuppliers" EntityType="Self.PossibleSuppliers" />
+    <EntitySet Name="Production" EntityType="Self.Production" />
+    <EntitySet Name="Products" EntityType="Self.Products" />
+    <EntitySet Name="ProductSales" EntityType="Self.ProductSales" />
+    <EntitySet Name="Provider" EntityType="Self.Provider" />
+    <EntitySet Name="Supplies" EntityType="Self.Supplies" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Users" EntityType="Self.Users" />
+    <AssociationSet Name="FK_ИсторияРеализациий_Агент" Association="Self.FK_ИсторияРеализациий_Агент">
+      <End Role="Agent" EntitySet="Agent" />
+      <End Role="HistoryImplementations" EntitySet="HistoryImplementations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ТочкаПродаж_Агент" Association="Self.FK_ТочкаПродаж_Агент">
+      <End Role="Agent" EntitySet="Agent" />
+      <End Role="PointSale" EntitySet="PointSale" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Поставки_Сотрудник" Association="Self.FK_Поставки_Сотрудник">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="Supplies" EntitySet="Supplies" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ПродажиПродукции_ИсторияРеализациий" Association="Self.FK_ПродажиПродукции_ИсторияРеализациий">
+      <End Role="HistoryImplementations" EntitySet="HistoryImplementations" />
+      <End Role="ProductSales" EntitySet="ProductSales" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ВозможныеПоставщики_Материал" Association="Self.FK_ВозможныеПоставщики_Материал">
+      <End Role="Material" EntitySet="Material" />
+      <End Role="PossibleSuppliers" EntitySet="PossibleSuppliers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_НеобходимыеМатериалы_Материал" Association="Self.FK_НеобходимыеМатериалы_Материал">
+      <End Role="Material" EntitySet="Material" />
+      <End Role="NecessaryMaterials" EntitySet="NecessaryMaterials" />
+    </AssociationSet>
+    <AssociationSet Name="FK_НеобходимыеМатериалы_Производство" Association="Self.FK_НеобходимыеМатериалы_Производство">
+      <End Role="Production" EntitySet="Production" />
+      <End Role="NecessaryMaterials" EntitySet="NecessaryMaterials" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ВозможныеПоставщики_Поставщик" Association="Self.FK_ВозможныеПоставщики_Поставщик">
+      <End Role="Provider" EntitySet="Provider" />
+      <End Role="PossibleSuppliers" EntitySet="PossibleSuppliers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Производство_Продкуция1" Association="Self.FK_Производство_Продкуция1">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="Production" EntitySet="Production" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ПродажиПродукции_Продкуция" Association="Self.FK_ПродажиПродукции_Продкуция">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="ProductSales" EntitySet="ProductSales" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Поставки_Поставщик" Association="Self.FK_Поставки_Поставщик">
+      <End Role="Provider" EntitySet="Provider" />
+      <End Role="Supplies" EntitySet="Supplies" />
+    </AssociationSet>
+    <FunctionImport Name="TypeCom" ReturnType="Collection(String)" />
+  </EntityContainer>
+</Schema>
